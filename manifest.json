@@ -4,6 +4,7 @@
   "name": "Unicsoft Redmine Helper",
   "version": "0.1.0",
   "description": "Adds some features to redmine(author Anton Korniychuk)",
+  "author": "Anton Korniychuk <dev@korniychuk.pro>",
 
   "icons": {
     "16": "redmine.png",
