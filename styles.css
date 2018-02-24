@@ -1,0 +1,26 @@
+.issue.details > .redmine-helper-icon {
+    margin-right: 0;
+    float: right;
+    padding: 2px;
+}
+
+.redmine-helper-icon {
+    width: 20px;
+    box-sizing: border-box;
+    transition: 0.5s all ease;
+}
+.redmine-helper-icon.active {
+    animation-name: flickerAnimation;
+    animation-iteration-count: 2;
+    animation-duration: 0.2s;
+}
+.redmine-helper-icon:not(.active):hover {
+    background-color: #8bff00;
+    transition: 0.1s all ease;
+}
+
+@keyframes flickerAnimation {
+    0%   { background-color: transparent; }
+    50%  { background-color: #ff5200; }
+    100% { background-color: transparent; }
+}

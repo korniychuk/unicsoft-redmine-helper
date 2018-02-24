@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "Unicsoft Redmine Helper",
+  "version": "0.1.0",
+  "description": "Adds some features to redmine(author Anton Korniychuk)",
+
+  "icons": {
+    "16": "redmine.png",
+    "48": "redmine.png",
+    "128": "redmine.png"
+  },
+
+  "browser_action": {
+    "default_icon": "redmine.png"
+  },
+
+  "content_scripts": [{
+    "css": ["styles.css"],
+    "js": ["jquery.min.js", "content.js"],
+    "matches": ["https://uti.unicsoft.com.ua/*"]
+  }],
+  "web_accessible_resources": [
+    "icon-copy.svg",
+    "redmine.png"
+  ]
+
+}
