@@ -20,7 +20,7 @@
     const copyIcon$ = makeIcon(textToCopy);
 
 
-    $('.issue.details').prepend(copyIcon$);
+    $('h2').prepend(copyIcon$);
   }
 
   function addCopyIconToIssueCards() {
