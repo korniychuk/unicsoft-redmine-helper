@@ -88,8 +88,8 @@
       if (callback instanceof Function) {
         callback();
       }
-      copyIcon$.addClass('active');
-      setTimeout(() => copyIcon$.removeClass('active'), 400);
+      btn$.addClass('active');
+      setTimeout(() => btn$.removeClass('active'), 400);
     });
 
     return btn$;
