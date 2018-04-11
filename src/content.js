@@ -2,54 +2,97 @@
 
   const icons = {
     copy: chrome.extension.getURL('icon-copy.svg'),
+    link: chrome.extension.getURL('icon-link.svg'),
   };
 
   // initialization
-  addCopyIconToIssueCards();
-  addCopyIconToOpenedIssue();
+  addCopyIconsToIssueCards();
+  addCopyIconsToOpenedIssue();
 
-  function addCopyIconToOpenedIssue() {
+  function addCopyIconsToOpenedIssue() {
     const idRegEx = /^\/issues\/(\d+)$/;
     const match = location.pathname.match(idRegEx);
     if (!match) { return }
 
     const [ , id ] = match;
     const name = $('.issue h3').text();
-    const textToCopy = `${id} ${name}`;
 
-    const copyIcon$ = makeIcon(textToCopy);
+    const bar$ = makeActionBar(id, name);
 
-
-    $('h2').prepend(copyIcon$);
+    $('h2').prepend(bar$);
   }
 
-  function addCopyIconToIssueCards() {
+  function addCopyIconsToIssueCards() {
     $('.issue-card').each((i, el) => {
-      const id         = $(el).find('.issue-id strong').text().replace(/^\w+ #/, '');
-      const name       = $(el).find('.name a').text();
-      const textToCopy = `${id} ${name}`;
+      const id   = $(el).find('.issue-id strong').text().replace(/^\w+ #/, '');
+      const name = $(el).find('.name a').text();
 
-      const copyIcon$ = makeIcon(textToCopy);
+      const bar$ = makeActionBar(id, name);
 
-      $(el).find('.info').prepend(copyIcon$);
+      $(el)
+        .addClass('redmine-helper--issue-card')
+        .prepend(bar$);
     });
   }
 
-  function makeIcon(textToCopy) {
-    const copyIcon$ = $('<img>');
+  function makeActionBar(taskId, taskName) {
+    const icons$ = makeCopyIconsSet(taskId, taskName);
+
+    const bar$ = $(`<div class="redmine-helper--action-bar"><span></span></div>`);
+    bar$.find('span')
+        .prepend(icons$.id)
+        .prepend(icons$.link)
+    ;
+
+    return bar$;
+  }
+
+  /**
+   * @param {string} taskId
+   * @param {string} taskName
+   */
+  function makeCopyIconsSet(taskId, taskName) {
+    const nameAndIdToCopy = `${taskId} ${taskName}`;
+    const linkToCopy = `${nameAndIdToCopy}\nhttps://uti.unicsoft.com.ua/issues/${taskId}`;
+
+    const id$ = makeCopyIcon(nameAndIdToCopy, icons.copy, 'Click to copy task number and title');
+    const link$ = makeCopyIcon(linkToCopy, icons.link, 'Click to copy task URL, number and title');
+
+    return { id: id$, link: link$ };
+  }
+
+  /**
+   * @param {string} textToCopy
+   * @param {string} iconUrl
+   * @param {string} tooltip
+   */
+  function makeCopyIcon(textToCopy, iconUrl, tooltip = '') {
+    return makeIcon(iconUrl, () => copyTask(textToCopy), tooltip);
+  }
+
+  /**
+   * @param {string}   iconUrl
+   * @param {Function} callback
+   * @param {string}   tooltip
+   */
+  function makeIcon(iconUrl, callback, tooltip) {
+    const btn$ = $('<span class="redmine-helper--icon-button"><img class="gravatar redmine-helper--icon"></span>');
+    const copyIcon$ = btn$.find('img');
 
     copyIcon$
-      .attr('src', icons.copy)
-      .attr('title', 'Click to copy task number and description')
-      .addClass('gravatar')
-      .addClass('redmine-helper-icon')
-      .click(() => {
-        copyTask(textToCopy);
-        copyIcon$.addClass('active');
-        setTimeout(() => copyIcon$.removeClass('active'), 400);
-      });
+      .attr('src', iconUrl)
+      .attr('title', tooltip)
+    ;
 
-    return copyIcon$;
+    btn$.click(() => {
+      if (callback instanceof Function) {
+        callback();
+      }
+      copyIcon$.addClass('active');
+      setTimeout(() => copyIcon$.removeClass('active'), 400);
+    });
+
+    return btn$;
   }
 
   function copyTask(text) {
@@ -57,12 +100,12 @@
   }
 
   function setClipboardText(text) {
-    var id             = 'mycustom-clipboard-textarea-hidden-id';
-    var existsTextarea = document.getElementById(id);
+    const id           = 'mycustom-clipboard-textarea-hidden-id';
+    let existsTextarea = document.getElementById(id);
 
     if (!existsTextarea) {
       // console.log('Creating textarea');
-      var textarea            = document.createElement('textarea');
+      const textarea          = document.createElement('textarea');
       textarea.id             = id;
       // Place in top-left corner of screen regardless of scroll position.
       textarea.style.position = 'fixed';
@@ -95,7 +138,7 @@
     existsTextarea.select();
 
     try {
-      var status = document.execCommand('copy');
+      let status = document.execCommand('copy');
       if (!status) {
         console.error('Cannot copy text');
       } else {

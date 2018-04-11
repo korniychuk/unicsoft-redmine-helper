@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Unicsoft Redmine Helper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Adds some features to redmine(author Anton Korniychuk)",
   "author": "Anton Korniychuk <dev@korniychuk.pro>",
 
@@ -23,6 +23,7 @@
   }],
   "web_accessible_resources": [
     "icon-copy.svg",
+    "icon-link.svg",
     "redmine.png"
   ]
 

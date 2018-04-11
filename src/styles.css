@@ -1,22 +1,74 @@
-body h2 > .redmine-helper-icon {
-    margin-right: 0;
-    padding: 2px;
+body h2 > .redmine-helper--action-bar {
+    display: inline-block;
+    vertical-align: -3px;
+}
+body h2 > .redmine-helper--action-bar .redmine-helper--icon-button {
+    float: left;
+    padding: 10px 5px 10px 10px;
+    margin: -10px 0 -10px -10px;
+}
+body h2 > .redmine-helper--action-bar .redmine-helper--icon-button:last-child {
+    margin-left: 0;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+body h2 > .redmine-helper--action-bar .redmine-helper--icon {
+    display: block;
+    margin: 0;
     vertical-align: 1px;
 }
 
-.redmine-helper-icon {
+.redmine-helper--icon {
     width: 20px;
     box-sizing: border-box;
     transition: 0.3s all ease;
 }
-.redmine-helper-icon.active {
+.redmine-helper--icon-button {
+    display: inline-block;
+    cursor: pointer;
+}
+.redmine-helper--icon-button.active .redmine-helper--icon {
     animation-name: flickerAnimation;
     animation-iteration-count: 2;
     animation-duration: 0.2s;
 }
-.redmine-helper-icon:not(.active):hover {
+.redmine-helper--icon-button:not(.active):hover .redmine-helper--icon {
     background-color: #8bff00;
     transition: 0.1s all ease;
+}
+.redmine-helper--issue-card {
+    position: relative;
+}
+.redmine-helper--issue-card .redmine-helper--action-bar {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    bottom: 0;
+    margin-top: -16px; /* 1px + 15px */
+    padding-right: 15px;
+    padding-top: 15px;
+    display: none;
+
+}
+.redmine-helper--issue-card .redmine-helper--action-bar > span {
+    display: block;
+    border: solid 1px #d5d5d5;
+    background-color: #ffffdd;
+}
+.redmine-helper--issue-card:hover .redmine-helper--action-bar {
+    display: block;
+}
+.redmine-helper--issue-card .redmine-helper--action-bar .redmine-helper--icon-button {
+    padding: 2px 5px 3px;
+}
+.redmine-helper--issue-card .redmine-helper--action-bar .redmine-helper--icon-button:first-child {
+    padding-top: 5px;
+    margin-top: -2px;
+}
+.redmine-helper--issue-card .redmine-helper--action-bar .redmine-helper--icon-button:last-child {
+    padding-bottom: 5px;
+}
+.redmine-helper--issue-card .redmine-helper--action-bar .redmine-helper--icon-button + .redmine-helper--icon-button  {
 }
 
 @keyframes flickerAnimation {
